@@ -1,524 +1,154 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Uma Surpresa Especial</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.77/Tone.js"></script>
+    <title>Para Meu Amor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap');
-
-        :root {
-            --background-dark: #0f0105;
-            --primary-wine: #8c1a2b;
-            --glow-color: #ff4d6d;
-            --text-color: #fce4ec;
-        }
-
-        body {
-            background: var(--background-dark);
-            font-family: 'Playfair Display', serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+        body,
+        html {
             margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
             overflow: hidden;
-            flex-direction: column;
-        }
-
-        #particles-js {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            background-image: linear-gradient(45deg, var(--background-dark), #2c080f, var(--background-dark));
-            background-size: 400% 400%;
-            animation: smokyBackground 20s ease infinite;
-        }
-
-        @keyframes smokyBackground {
-            0% {
-                background-position: 0% 50%;
-            }
-
-            50% {
-                background-position: 100% 50%;
-            }
-
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-
-        #entryScreen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--background-dark);
-            z-index: 100;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 1s ease;
-        }
-
-        #startButton {
-            background-color: transparent;
-            border: 2px solid var(--glow-color);
-            color: var(--text-color);
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(1.5rem, 5vw, 2.5rem);
-            padding: 15px 30px;
-            border-radius: 50px;
+            background-color: #000;
             cursor: pointer;
-            text-shadow: 0 0 5px var(--glow-color);
-            box-shadow: 0 0 10px var(--glow-color) inset, 0 0 20px var(--glow-color);
-            transition: all 0.3s ease;
         }
 
-        #startButton:hover {
-            transform: scale(1.05);
-        }
-
-        .container {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 300px;
-            height: 300px;
-            z-index: 1;
-            user-select: none;
-            -webkit-user-select: none;
-            opacity: 0;
-            transition: opacity 1s ease 0.5s;
-        }
-
-        #pulsatingHeart {
-            position: absolute;
-            width: 100px;
-            height: 90px;
-            cursor: pointer;
-            animation: pulse 1.5s infinite;
-            filter: drop-shadow(0 0 15px var(--glow-color));
-            transition: opacity 0.5s ease, transform 0.5s ease;
-        }
-
-        #pulsatingHeart::before,
-        #pulsatingHeart::after {
-            content: "";
-            position: absolute;
-            left: 50px;
-            top: 0;
-            width: 50px;
-            height: 80px;
-            background: var(--primary-wine);
-            border-radius: 50px 50px 0 0;
-            transform: rotate(-45deg);
-            transform-origin: 0 100%;
-        }
-
-        #pulsatingHeart::after {
-            left: 0;
-            transform: rotate(45deg);
-            transform-origin: 100% 100%;
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.15);
-            }
-
-            100% {
-                transform: scale(1);
-            }
-        }
-
-        .container.exploded #pulsatingHeart {
-            opacity: 0;
-            transform: scale(1.5);
-        }
-
-        .message {
-            position: absolute;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: var(--text-color);
-            font-weight: 700;
-            text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px var(--glow-color), 0 0 20px var(--glow-color);
-            text-align: center;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 1s ease-in-out 0.5s;
-        }
-
-        .message-line {
-            font-size: clamp(2.5rem, 10vw, 4.5rem);
-            white-space: nowrap;
-        }
-
-        .container.exploded .message {
-            opacity: 1;
-        }
-
-        .final-message {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 95vw;
-            max-width: 800px;
-            font-size: clamp(1.5rem, 5vw, 2.5rem);
-            color: var(--text-color);
-            text-shadow: 0 0 5px var(--glow-color);
-            opacity: 0;
-            text-align: center;
-            pointer-events: none;
-            transition: opacity 1s ease-in-out;
-            line-height: 1.5;
-        }
-
-        .hidden {
-            opacity: 0 !important;
-            pointer-events: none !important;
-        }
-
-        @keyframes fadeInLetter {
-            to {
-                opacity: 1;
-            }
-        }
-
-        .particle {
-            position: absolute;
-            pointer-events: none;
-            background: var(--glow-color);
-        }
-
-        .particle::before,
-        .particle::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: inherit;
-            border-radius: 50%;
-        }
-
-        .particle::before {
-            top: -50%;
-            left: 0;
-        }
-
-        .particle::after {
-            top: 0;
-            left: -50%;
-        }
-
-        .buttons-container {
-            position: relative;
-            z-index: 2;
-            margin-top: 20px;
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
-            pointer-events: none;
-        }
-
-        .buttons-container.revealed {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        .buttons-container button {
-            background-color: transparent;
-            border: 2px solid var(--glow-color);
-            color: var(--text-color);
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(1rem, 4vw, 1.5rem);
-            padding: 10px 20px;
-            margin: 0 10px;
-            border-radius: 50px;
-            cursor: pointer;
-            text-shadow: 0 0 5px var(--glow-color);
-            box-shadow: 0 0 10px var(--glow-color) inset, 0 0 10px var(--glow-color);
-            transition: all 0.3s ease;
-            opacity: 0;
-        }
-
-        .buttons-container.revealed button {
-            animation: slideUpFadeIn 0.5s ease forwards;
-        }
-
-        .buttons-container.revealed button:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .buttons-container button:hover {
-            background-color: var(--glow-color);
-            color: var(--background-dark);
-            box-shadow: 0 0 20px var(--glow-color) inset, 0 0 20px var(--glow-color);
-            transform: scale(1.05);
-        }
-
-        .instrucao {
-            position: absolute;
-            color: rgba(252, 228, 236, 0.4);
-            font-size: 1.2rem;
-            pointer-events: none;
-            z-index: 3;
-            opacity: 0;
-            transition: opacity 1s ease 0.5s;
-            text-align: center;
-        }
-
-        #instrucao-clique {
-            bottom: 30px;
-            animation: fadeInOut 5s infinite;
-        }
-
-        #instrucao-volume {
-            top: calc(50% - 220px);
-        }
-
-        @keyframes fadeInOut {
-
-            0%,
-            100% {
-                opacity: 0;
-            }
-
-            50% {
-                opacity: 1;
-            }
-        }
-
-        @keyframes shake {
-
-            0%,
-            100% {
-                transform: translateX(0);
-            }
-
-            25% {
-                transform: translateX(-5px);
-            }
-
-            75% {
-                transform: translateX(5px);
-            }
-        }
-
-        .shaking {
-            animation: shake 0.3s linear;
-        }
-
-        @keyframes slideUpFadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        canvas {
+            display: block;
         }
     </style>
 </head>
 
 <body>
-    <audio id="heartbeatSound" loop>
-        <source src="6zxvxa17fht-heart-thump-sfx-10.mp3" type="audio/mpeg">
-    </audio>
-
-    <div id="entryScreen">
-        <button id="startButton">clica aqui vai amor</button>
-    </div>
-
-    <div id="particles-js"></div>
-
-    <p class="instrucao" id="instrucao-volume">aumenta o volume meu bem,<br>gravei a batida do meu coracao</p>
-
-    <div class="container" id="mainContainer">
-        <div id="pulsatingHeart" aria-label="Clique em mim"></div>
-        <div class="message" id="loveMessage">
-            <div class="message-line" id="loveMessageLine1"></div>
-            <div class="message-line" id="loveMessageLine2"></div>
-        </div>
-        <p class="final-message" id="finalMessage"></p>
-    </div>
-
-    <div class="buttons-container" id="buttonsContainer">
-        <button id="noTouchButton">Não toque</button>
-        <button id="touchButton">Toque</button>
-    </div>
-
-    <p class="instrucao" id="instrucao-clique">Toque no meu coração...</p>
+    <canvas id="loveCanvas"></canvas>
 
     <script>
-        const entryScreen = document.getElementById('entryScreen');
-        const startButton = document.getElementById('startButton');
-        const mainContainer = document.getElementById('mainContainer');
-        const pulsatingHeart = document.getElementById('pulsatingHeart');
-        const loveMessage = document.getElementById('loveMessage');
-        const loveMessageLine1 = document.getElementById('loveMessageLine1');
-        const loveMessageLine2 = document.getElementById('loveMessageLine2');
-        const finalMessage = document.getElementById('finalMessage');
-        const heartbeatSound = document.getElementById('heartbeatSound');
-        const buttonsContainer = document.getElementById('buttonsContainer');
-        const noTouchButton = document.getElementById('noTouchButton');
-        const touchButton = document.getElementById('touchButton');
-        const instrucaoClique = document.getElementById('instrucao-clique');
-        const instrucaoVolume = document.getElementById('instrucao-volume');
+        const canvas = document.getElementById('loveCanvas');
+        const ctx = canvas.getContext('2d');
 
-        const explosionSynth = new Tone.PolySynth(Tone.Synth, {
-            oscillator: { type: "sine" },
-            envelope: { attack: 0.005, decay: 0.1, sustain: 0.3, release: 1 },
-        }).toDestination();
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
 
-        startButton.addEventListener('click', () => {
-            if (Tone.context.state !== 'running') Tone.start();
-            heartbeatSound.play().catch(e => console.log("O áudio foi bloqueado."));
-            entryScreen.classList.add('hidden');
-            mainContainer.style.opacity = 1;
-            instrucaoClique.style.opacity = 1;
-            instrucaoVolume.style.opacity = 1;
-            setTimeout(() => { entryScreen.style.display = 'none'; }, 1000);
+        let particles = [];
+        const messages = ["Te Amo", "Meu Amor", "Minha Vida"];
+        const colors = ['#ff4d4d', '#ff8080', '#ffb3b3', '#ffe6e6'];
+
+        // Redimensiona o canvas quando a janela muda de tamanho
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
         });
 
-        function playSound(synth, notes) {
-            synth.triggerAttackRelease(notes, "8n");
-            if (navigator.vibrate) navigator.vibrate(50);
-        }
+        // Classe para criar as partículas (texto e corações)
+        class Particle {
+            constructor(x, y, isExplosion = false) {
+                this.x = x;
+                this.y = y;
+                this.isExplosion = isExplosion;
 
-        function animateText(element, text) {
-            element.innerHTML = '';
-            text.split('').forEach((char, index) => {
-                const span = document.createElement('span');
-                span.textContent = char === ' ' ? '\u00A0' : char;
-                span.style.animationDelay = `${index * 0.08}s`;
-                element.appendChild(span);
-            });
-        }
+                // Configurações para partículas de explosão
+                if (this.isExplosion) {
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = Math.random() * 4 + 2;
+                    this.vx = Math.cos(angle) * speed;
+                    this.vy = Math.sin(angle) * speed;
+                    this.life = Math.random() * 50 + 80;
+                } else { // Configurações para partículas flutuantes
+                    this.vx = (Math.random() - 0.5) * 1;
+                    this.vy = -Math.random() * 1.5 - 0.5; // Flutua para cima
+                    this.life = Math.random() * 150 + 200;
+                }
 
-        let hasExploded = false;
+                this.isHeart = Math.random() > 0.4; // 60% de chance de ser coração
+                this.message = this.isHeart ? '♥' : messages[Math.floor(Math.random() * messages.length)];
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.size = Math.floor(Math.random() * 15) + 15;
+                this.originalLife = this.life;
+            }
 
-        pulsatingHeart.addEventListener('click', () => {
-            if (hasExploded) return;
-            hasExploded = true;
+            // Atualiza a posição e estado da partícula
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
 
-            // --- AJUSTE DEFINITIVO AQUI ---
-            // Esconde as instruções e desativa a animação para garantir que não voltem.
-            instrucaoClique.classList.add('hidden');
-            instrucaoVolume.classList.add('hidden');
-            instrucaoClique.style.animation = 'none';
+                // Adiciona um pouco de "gravidade" ou resistência do ar
+                if (this.isExplosion) {
+                    this.vy += 0.05;
+                    this.vx *= 0.99;
+                    this.vy *= 0.99;
+                }
 
-            playSound(explosionSynth, ["C5", "E5", "G5"]);
-            explodeHeart();
-        });
+                this.life--;
+            }
 
-        noTouchButton.addEventListener('click', () => {
-            playSound(explosionSynth, ["A5", "C6"]);
-            showFinalMessage("Eu sabia que ia tocar<br>minha curiosa...<br>3 palavras meu bem");
-        });
-
-        touchButton.addEventListener('click', () => {
-            playSound(explosionSynth, ["G5", "B5"]);
-            showFinalMessage("Onde quer que esteja,<br>eu vou te amar,<br>pois você é minha<br>3 palavras");
-        });
-
-        function showFinalMessage(text) {
-            buttonsContainer.classList.add('hidden');
-            loveMessage.classList.add('hidden');
-            setTimeout(() => {
-                finalMessage.style.opacity = 1;
-                finalMessage.innerHTML = text;
-            }, 500);
-        }
-
-        function explodeHeart() {
-            mainContainer.classList.add('exploded');
-            animateText(loveMessageLine1, "Eu te amo,");
-            animateText(loveMessageLine2, "Maria Acioli");
-
-            setTimeout(() => { buttonsContainer.classList.add('revealed'); }, 2200);
-
-            const rect = pulsatingHeart.getBoundingClientRect();
-            const originX = rect.left + rect.width / 2;
-            const originY = rect.top + rect.height / 2;
-
-            for (let i = 0; i < 80; i++) {
-                const particle = document.createElement('div');
-                particle.classList.add('particle');
-                document.body.appendChild(particle);
-
-                const size = Math.random() * 15 + 5;
-                const initialRotation = Math.random() * 360;
-
-                Object.assign(particle.style, {
-                    width: `${size}px`, height: `${size}px`,
-                    left: `${originX - size / 2}px`, top: `${originY - size / 2}px`,
-                    transform: `rotate(${initialRotation}deg)`
-                });
-
-                const angle = Math.random() * 2 * Math.PI;
-                const distance = Math.random() * 200 + 100;
-                const translateX = Math.cos(angle) * distance;
-                const translateY = Math.sin(angle) * distance;
-                const finalRotation = Math.random() * 720 - 360;
-
-                particle.animate([
-                    { transform: `rotate(${initialRotation}deg) translate(0, 0) scale(1)`, opacity: 1 },
-                    { transform: `rotate(${finalRotation}deg) translate(${translateX}px, ${translateY}px) scale(0)`, opacity: 0 }
-                ], {
-                    duration: 1200 + Math.random() * 800,
-                    easing: 'cubic-bezier(0.17, .84, .44, 1)',
-                    fill: 'forwards'
-                });
-
-                setTimeout(() => particle.remove(), 2500);
+            // Desenha a partícula no canvas
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = Math.max(0, this.life / this.originalLife); // Desvanece ao longo do tempo
+                ctx.fillStyle = this.color;
+                ctx.font = `${this.size}px 'Pacifico', cursive`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(this.message, this.x, this.y);
+                ctx.restore();
             }
         }
 
-        noTouchButton.addEventListener('mouseover', () => {
-            noTouchButton.classList.add('shaking');
-            setTimeout(() => { noTouchButton.classList.remove('shaking'); }, 300);
+        // Função para criar uma explosão de partículas
+        function createExplosion(x, y) {
+            const particleCount = 70;
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle(x, y, true));
+            }
+        }
+
+        // Adiciona listeners para toque e clique
+        canvas.addEventListener('click', (e) => {
+            createExplosion(e.clientX, e.clientY);
+        });
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // Evita que a página role
+            const touch = e.touches[0];
+            createExplosion(touch.clientX, touch.clientY);
         });
 
+        // Cria partículas flutuantes de fundo continuamente
         function createBackgroundParticles() {
-            const container = document.getElementById('particles-js');
-            for (let i = 0; i < 50; i++) {
-                const p = document.createElement('div');
-                const size = Math.random() * 3 + 1;
-                Object.assign(p.style, {
-                    position: 'absolute', background: 'var(--glow-color)',
-                    borderRadius: '50%', width: `${size}px`, height: `${size}px`,
-                    left: `${Math.random() * 100}%`, top: `${Math.random() * 100}%`,
-                    opacity: Math.random() * 0.5 + 0.2,
-                    animation: `float ${Math.random() * 20 + 10}s linear infinite`
-                });
-                container.appendChild(p);
-            }
+            const x = Math.random() * width;
+            const y = height + 50; // Começa de baixo da tela
+            particles.push(new Particle(x, y, false));
         }
 
-        const styleSheet = document.createElement('style');
-        styleSheet.innerHTML = `
-            @keyframes float { 0% { transform: translateY(0) translateX(0); } 50% { transform: translateY(-20vh) translateX(10vw); } 100% { transform: translateY(0) translateX(0); } }
-        `;
-        document.head.appendChild(styleSheet);
+        setInterval(createBackgroundParticles, 300);
 
-        createBackgroundParticles();
+        // Loop principal de animação
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+
+            for (let i = particles.length - 1; i >= 0; i--) {
+                const p = particles[i];
+                p.update();
+                p.draw();
+
+                // Remove partículas que já "morreram"
+                if (p.life <= 0) {
+                    particles.splice(i, 1);
+                }
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        // Inicia a animação
+        animate();
     </script>
-
 </body>
 
 </html>
